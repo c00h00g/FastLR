@@ -48,7 +48,7 @@ void FastLR::train() {
     uint32_t f_num = labels.size();
     for (uint32_t i = 0; i < epoch; ++i) {
         for (uint32_t j = 0; j < f_num; ++j) {
-            train_line(labels[i]i, features[i]);
+            train_line(labels[i], features[i]);
         }
     }
 }
