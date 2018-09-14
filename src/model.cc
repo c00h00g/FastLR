@@ -65,7 +65,7 @@ void FastLR::train_line(uint32_t label,
                                     predict, 
                                     one_feature[i], 
                                     w[i]);
-        w[i] -= grad;
+        w[i] -= lr * grad;
     }
 }
 
@@ -96,7 +96,7 @@ double FastLR::calc_gradient(RegType reg_type,
                              double one_f,
                              double one_w) {
     double grad = 0.0;
-    grad = lr * (-1.0 * (lable * 1.0 - predict_value) * one_f + eta * one_w);
+    grad = (-1.0 * (lable * 1.0 - predict_value) * one_f + eta * one_w);
     return grad;
 }
 
