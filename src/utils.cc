@@ -4,9 +4,9 @@
 
 namespace fastlr {
 
-inline void split(const std::string & input,
-                  std::vector<std::string> & output,
-                  const std::string & separator) {
+void split(const std::string & input,
+           std::vector<std::string> & output,
+           const std::string & separator) {
 
     std::string::size_type begin = 0;
     std::string::size_type end = input.find(separator);

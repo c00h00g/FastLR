@@ -2,8 +2,9 @@
 #include <vector>
 #include <fstream>
 #include <assert.h>
-#include "utils.h"
 #include <cmath>
+
+#include "utils.h"
 
 //使用随机梯度下降法(SGD)
 
@@ -67,6 +68,9 @@ class FastLR {
         
         //计算预测值
         double calc_predict_value(const std::vector<double>& one_feature);
+
+        //计算loss
+        double calc_loss();
 
         //sgd, 对每一行进行梯度更新
         void train_line(uint32_t label,

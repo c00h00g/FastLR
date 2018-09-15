@@ -75,6 +75,19 @@ void FastLR::train() {
     }
 }
 
+double FastLR::calc_loss() {
+    double loss = 0;
+    uint32_t lable_num = labels.size();
+    for (uint32_t i = 0; i < lable_num; ++i) {
+        std::vector<double>& one_feature = features[i];
+        double label = labels[i];
+        double predict = calc_predict_value(one_feature);
+        double one_loss = -1.0 * (label * std::log(predict) + (1 - label) * std::log(1 - predict));
+        loss += one_loss;
+    }
+    return loss;
+}
+
 /**
  * @brief : Ëæ»úÌÝ¶ÈÏÂ½µ(SGD)
  **/
