@@ -7,6 +7,27 @@ FastLR::FastLR(double lr,
                uint32_t epoch,
                double eta,
                const std::string& fea_path) {
+    this->lr = lr;
+    this->reg_type = trans_type(reg_type);
+    this->epoch = epoch;
+    this->eta = eta;
+
+    //加载数据
+    load_data(fea_path);
+}
+
+/**
+ * @brief : 类型转换
+ * @param type
+ **/
+RegType FastLR::trans_type(const std::string& type) {
+    if (type == "L1") {
+        return L1;
+    } else if (type == "L2") {
+        return L2;
+    } else {
+        return L0;
+    }
 }
 
 /**
@@ -14,7 +35,7 @@ FastLR::FastLR(double lr,
  * 数据格式 : lable(0|1)\tf1\tf2\t...
  **/
 void FastLR::load_data(const std::string& fea_path) {
-    ifstream fin(fea_path.c_str());
+    std::ifstream fin(fea_path.c_str());
     std::string line;
 
     while (getline(fin, line)) {
@@ -25,9 +46,9 @@ void FastLR::load_data(const std::string& fea_path) {
 /**
  * @brief : 读取特征的值
  **/
-void FastLR::read_features(const std::vector<std::string>& line) {
+void FastLR::read_features(const std::string& line) {
     std::vector<std::string> f_info;
-    split(line, f_info, is_any_of("\t"));
+    split(line, f_info, "\t");
     assert(f_info.size() > 0);
 
     std::vector<double> one_feature;
@@ -45,9 +66,10 @@ void FastLR::read_features(const std::vector<std::string>& line) {
  * @brief : 训练数据
  **/
 void FastLR::train() {
-    uint32_t f_num = labels.size();
-    for (uint32_t i = 0; i < epoch; ++i) {
-        for (uint32_t j = 0; j < f_num; ++j) {
+    //轮次
+    while (epoch--) {
+        uint32_t f_num = features.size();
+        for (uint32_t i = 0; i < f_num; ++i) {
             train_line(labels[i], features[i]);
         }
     }
@@ -61,7 +83,8 @@ void FastLR::train_line(uint32_t label,
     uint32_t w_num = one_feature.size();
     for (uint32_t i = 0; i < w_num; ++i) {
         double predict = calc_predict_value(one_feature);
-        double grad = calc_gradient(label, 
+        double grad = calc_gradient(reg_type,
+                                    label, 
                                     predict, 
                                     one_feature[i], 
                                     w[i]);
@@ -90,29 +113,25 @@ double FastLR::calc_predict_value(const std::vector<double>& one_feature) {
  * @param one_f : 一个纬度上feature的值
  * @param one_w : 要梯度下降的参数
  **/
-double FastLR::calc_gradient(RegType reg_type,
+double FastLR::calc_gradient(RegType type,
                              uint32_t lable, 
                              double predict_value,
                              double one_f,
                              double one_w) {
+    double reg_value = 0.0;
+    switch (type) {
+        case L0:
+            reg_value = 0.0;
+            break;
+        case L2:
+            reg_value = eta * one_w;
+        default:
+            break;
+    }
+
     double grad = 0.0;
-    grad = (-1.0 * (lable * 1.0 - predict_value) * one_f + eta * one_w);
+    grad = (-1.0 * (lable * 1.0 - predict_value) * one_f + reg_value);
     return grad;
 }
-
-/**
- * @brief : 计算l2正则
- **/
-double FastLR::calc_l2_regular() {
-
-}
-
-/**
- * @brief : 计算l1正则
- **/
-double FastLR::calc_l1_regular() {
-    
-}
-
 
 } //end namespace
