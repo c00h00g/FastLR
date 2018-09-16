@@ -2,6 +2,7 @@
 #include <vector>
 #include <fstream>
 #include <assert.h>
+#include <iostream>
 #include <cmath>
 
 #include "utils.h"
@@ -59,18 +60,21 @@ class FastLR {
         //训练
         void train();
 
-        //计算梯度
-        double calc_gradient(RegType type,
-                             uint32_t lable, 
-                             double predict_value,
-                             double one_f,
-                             double one_w);
+        //计算w的梯度
+        double calc_gradient_w(RegType type,
+                               uint32_t lable, 
+                               double predict_value,
+                               double one_f,
+                               double one_w);
+
+        double calc_gradient_b(uint32_t label,
+                               double predict_value);
         
         //计算预测值
         double calc_predict_value(const std::vector<double>& one_feature);
 
         //计算loss
-        double calc_loss();
+        double calc_avg_loss();
 
         //sgd, 对每一行进行梯度更新
         void train_line(uint32_t label,
