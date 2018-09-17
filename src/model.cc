@@ -151,6 +151,17 @@ double FastLR::calc_predict_value(const std::vector<double>& one_feature) {
 }
 
 /**
+ * @brief : 计算L1正则
+ **/
+double FastLR::calc_L1_Reg() {
+    double sum = 0;
+    for (uint32_t i = 0; i < w.size(); ++i) {
+        sum += w[i];
+    }
+    return sum > 0 ? 1 : -1;
+}
+
+/**
  * @brief : 计算梯度
  * @param label
  * @param predict_value
@@ -167,6 +178,9 @@ double FastLR::calc_gradient_w(RegType type,
         case L0:
             reg_value = 0.0;
             break;
+        case L1:
+            reg_value = calc_L1_Reg();
+            break;
         case L2:
             reg_value = eta * one_w;
             break;
@@ -177,6 +191,13 @@ double FastLR::calc_gradient_w(RegType type,
     double grad = 0.0;
     grad = (-1.0 * (lable * 1.0 - predict_value) * one_f + reg_value);
     return grad;
+}
+
+/**
+ * @brief : 保存训练好的模型
+ **/
+void FastLR::save_model() {
+    
 }
 
 } //end namespace

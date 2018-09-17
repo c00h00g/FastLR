@@ -76,9 +76,14 @@ class FastLR {
         //计算loss
         double calc_avg_loss();
 
+        //计算L1正则
+        double calc_L1_Reg();
+
         //sgd, 对每一行进行梯度更新
         void train_line(uint32_t label,
                         const std::vector<double>& one_feature);
+        //save model
+        void save_model();
 };
 
 }
