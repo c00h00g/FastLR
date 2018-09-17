@@ -4,6 +4,7 @@
 #include <assert.h>
 #include <iostream>
 #include <cmath>
+#include <algorithm>
 
 #include "utils.h"
 
@@ -56,6 +57,10 @@ class FastLR {
 
         //¶ÁÈ¡ÌØÕ÷
         void read_features(const std::string& line);
+
+        //shuffle
+        void shuffle_data(const std::string& fea_path,
+                          std::vector<std::string>& lines);
 
         //ÑµÁ·
         void train();

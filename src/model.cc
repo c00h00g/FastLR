@@ -36,12 +36,30 @@ RegType FastLR::trans_type(const std::string& type) {
  * 数据格式 : lable(0|1)\tf1\tf2\t...
  **/
 void FastLR::load_data(const std::string& fea_path) {
+    //shuffle数据
+    std::vector<std::string> lines;
+    shuffle_data(fea_path, lines);
+
+    //读取数据
+    for (uint32_t i = 0; i < lines.size(); ++i) {
+        read_features(lines[i]);
+    }
+}
+
+/**
+ * @brief : 对数据进行shuffle
+ **/
+void FastLR::shuffle_data(const std::string& fea_path,
+                          std::vector<std::string>& lines) {
     std::ifstream fin(fea_path.c_str());
     std::string line;
 
     while (getline(fin, line)) {
-        read_features(line);
+        lines.push_back(line);
     }
+
+    //shuffle数据
+    std::random_shuffle(lines.begin(), lines.end());
 }
 
 /**

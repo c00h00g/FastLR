@@ -5,7 +5,7 @@
 
 int main() {
     std::shared_ptr<fastlr::FastLR> fast_lr =
-           std::make_shared<fastlr::FastLR>(0.01, "L2", 30, 0.01, "./train.tst");
+           std::make_shared<fastlr::FastLR>(0.01, "L1", 30, 0.01, "./train.tst");
     std::cout << "Hello, FastLR!" << std::endl;
     fast_lr->train();
     return 0;
