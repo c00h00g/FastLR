@@ -179,7 +179,7 @@ double FastLR::calc_gradient_w(RegType type,
             reg_value = 0.0;
             break;
         case L1:
-            reg_value = calc_L1_Reg();
+            reg_value = eta * calc_L1_Reg();
             break;
         case L2:
             reg_value = eta * one_w;
