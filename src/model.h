@@ -59,8 +59,8 @@ class FastLR {
         void read_features(const std::string& line);
 
         //shuffle
-        void shuffle_data(const std::string& fea_path,
-                          std::vector<std::string>& lines);
+        void read_lines(const std::string& fea_path,
+                        std::vector<std::string>& lines);
 
         //ÑµÁ·
         void train();
