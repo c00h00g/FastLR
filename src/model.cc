@@ -50,7 +50,9 @@ void FastLR::load_data(const std::string& fea_path) {
 }
 
 /**
- * @brief : 对数据进行shuffle
+ * @brief : 加载所有数据
+ * @param fea_path : 训练数据路径
+ * @param lines[out] : 读取数据后存储位置 
  **/
 void FastLR::read_lines(const std::string& fea_path,
                         std::vector<std::string>& lines) {
